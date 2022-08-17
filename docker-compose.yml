@@ -1,0 +1,82 @@
+version: '3'
+networks:
+    laravel_microservices:
+        external: true
+services:
+    database:
+        image: 'postgres'
+        restart: always
+        ports:
+            - '5432:5432'
+        environment:
+            POSTGRES_DB: 'microservices'
+            POSTGRES_USER: 'secret'
+            POSTGRES_PASSWORD: 'secret'
+        volumes:
+            - './database:/var/lib/postgresql/data'
+        networks:
+            - laravel_microservices
+    api_gateway:
+        build:
+            context: ./api-gateway/vendor/laravel/sail/runtimes/8.1
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${GID}'
+        image: sail-8.1/app
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '8080:80'
+        environment:
+            WWWUSER: '${UID}'
+        volumes:
+            - './api-gateway/:/var/www/html'
+        networks:
+            - laravel_microservices
+        depends_on:
+            - database
+    microservice-a:
+        build:
+            context: ./microservice-a/vendor/laravel/sail/runtimes/8.1
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${GID}'
+        image: sail-8.1/app
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        environment:
+            WWWUSER: '${UID}'
+        volumes:
+            - './microservice-a/:/var/www/html'
+        networks:
+            - laravel_microservices
+    microservice-b:
+        build:
+            context: ./microservice-b/vendor/laravel/sail/runtimes/8.1
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${GID}'
+        image: sail-8.1/app
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        environment:
+            WWWUSER: '${UID}'
+        volumes:
+            - './microservice-b/:/var/www/html'
+        networks:
+            - laravel_microservices
+    microservice-c:
+        build:
+            context: ./microservice-c/vendor/laravel/sail/runtimes/8.1
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${GID}'
+        image: sail-8.1/app
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        environment:
+            WWWUSER: '${UID}'
+        volumes:
+            - './microservice-c/:/var/www/html'
+        networks:
+            - laravel_microservices
