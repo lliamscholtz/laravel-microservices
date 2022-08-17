@@ -20,7 +20,7 @@ class GatewayTest extends TestCase
     {
         Passport::actingAsClient(
             Client::factory()->create(),
-            ['access-microservice-c']
+            ['microservice-c']
         );
 
         $response = $this->get('/api/microservice-b');
@@ -31,7 +31,7 @@ class GatewayTest extends TestCase
     {
         Passport::actingAsClient(
             Client::factory()->create(),
-            ['access-microservice-b']
+            ['microservice-b']
         );
 
         $response = $this->get('/api/microservice-b');

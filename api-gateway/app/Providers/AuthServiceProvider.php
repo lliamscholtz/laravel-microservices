@@ -31,8 +31,9 @@ class AuthServiceProvider extends ServiceProvider
         Passport::personalAccessTokensExpireIn(now()->addMonths(12));
 
         Passport::tokensCan([
-            'access-microservice-b' => 'Can access Microservice B',
-            'access-microservice-c' => 'Can access Microservice C',
+            'microservice-b' => 'Can access Microservice B',
+            'microservice-c' => 'Can access Microservice C',
+            'microservice-c.read' => 'Can read from Microservice C',
         ]);
     }
 }

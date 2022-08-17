@@ -19,4 +19,4 @@ Route::get(
     function () {
         return new Response('Hello from Microservice C!');
     }
-);
+)->middleware('scope:microservice-c.read');

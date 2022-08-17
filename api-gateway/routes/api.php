@@ -46,7 +46,7 @@ Route::get(
             ->get('http://microservice-b/api/service');
         return new Response($response->body(), $response->status());
     }
-)->middleware(['client:access-microservice-b']);
+)->middleware(['client:microservice-b']);
 
 Route::get(
     '/microservice-c',
@@ -56,4 +56,4 @@ Route::get(
             ->get('http://microservice-c/api/service');
         return new Response($response->body(), $response->status());
     }
-)->middleware(['client:access-microservice-c']);
+)->middleware(['client:microservice-c']);
